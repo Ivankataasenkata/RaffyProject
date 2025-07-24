@@ -27,5 +27,13 @@ export const routes: Routes = [
     {
         path: 'breakfast',
         loadComponent: () => import('./features/menu/breakfast/meal-board/meal-board').then(c => c.MealBoard)
+    },
+    {
+        path: 'lunch',
+        loadComponent: () => import('./features/menu/breakfast/meal-board/meal-board').then(c => c.MealBoard)
+    },
+    {
+        path: 'dinner',
+        loadComponent: () => import('./features/menu/breakfast/meal-board/meal-board').then(c => c.MealBoard)
     }
 ];   

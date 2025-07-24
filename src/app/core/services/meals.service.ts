@@ -10,12 +10,33 @@ import { Meal } from "../../models";
 
 export class MealsService {
     //http://localhost:3000/breakfast
-    private apiUrl = 'http://localhost:3000/breakfasts';
+    private baseApiUrl = 'http://localhost:3000';
 
     constructor(private httpClient: HttpClient){}
 
-    getBreakfastMeals(): Observable<Meal[]> {
-         console.log(`In service ${this.httpClient.get<Meal[]>(this.apiUrl)}`);
-        return this.httpClient.get<Meal[]>(this.apiUrl);
+    getBreakfastMeals(mealType: string): Observable<Meal[]> {
+
+        const apiUrl = `${this.baseApiUrl}/${mealType}`;
+
+        console.log(`In service breakfast - ${this.httpClient.get<Meal[]>(apiUrl)}`);
+
+        return this.httpClient.get<Meal[]>(apiUrl);
+    }
+
+    getLunchMeals(mealType: string): Observable<Meal[]> {
+        const apiUrl = `${this.baseApiUrl}/${mealType}`;
+
+        console.log(`In service lunch - ${this.httpClient.get<Meal[]>(apiUrl)}`);
+
+        return this.httpClient.get<Meal[]>(apiUrl);
+    }
+
+
+    getDinnerMeals(mealType: string): Observable<Meal[]> {
+        const apiUrl = `${this.baseApiUrl}/${mealType}`;
+
+        console.log(`In service lunch - ${this.httpClient.get<Meal[]>(apiUrl)}`);
+
+        return this.httpClient.get<Meal[]>(apiUrl);
     }
 }

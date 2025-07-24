@@ -16,7 +16,7 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 export class MealBoard implements OnInit {
   subscriptions: Subscription[] = [];
   mealType: string = '';
-  // meals$!: Observable<Meal[]>;
+  meals$!: Observable<Meal[]>;
   meals: Meal[] = [];
 
   constructor(private route: ActivatedRoute, private mealsService: MealsService) {
@@ -25,38 +25,35 @@ export class MealBoard implements OnInit {
 
   ngOnInit(): void {
     const url = this.route.snapshot.url.map(segment => segment.path).join('/');
-  if (url.includes('breakfast')) {
-    this.mealType = 'breakfast';
-    this.subscriptions.push(
-      this.mealsService.getBreakfastMeals().subscribe((response: Meal[]) => this.meals = response)
+
+    console.log(`mealtypy - ${this.mealType}`);
+
+    if (url.includes('breakfast')) {
+      this.mealType = 'breakfast';
       
-    );
+    }else if (url.includes('lunch')){
+      this.mealType = 'lunch';
+      
+    }else if (url.includes('dinner')){
+      this.mealType = 'dinner';
+    }
 
-    console.log(this.meals);
-  }
-
-    // this.mealType = this.route.snapshot.paramMap.get('mealType') || '';
-
-    // switch (this.mealType) {
-    //   case 'breakfast':
-
-    //     console.log(this.meals);
-
-    //     this.subscriptions.push(this.mealsService.getBreakfastMeals().subscribe((response: Meal[]) => {
-    //       this.meals = response;
-    //       // console.log(this.meals)
-    //     }));
-
-    //     break;
-    //   // case 'lunch':
-    //   //   this.meals$ = this.mealsService.getLunchMeals();
-    //   //   break;
-    //   // case 'dinner':
-    //   //   this.meals$ = this.mealsService.getDinnerMeals();
-    //   //   break;
-    //   default:
-    //   // this.meals$ = of([]);  
-    // }
+    switch (this.mealType) {
+      case 'breakfast':
+        this.meals$ = this.mealsService.getBreakfastMeals(this.mealType);
+        
+        break;
+      case 'lunch':
+        this.meals$ = this.mealsService.getLunchMeals(this.mealType);
+        
+        break;
+      case 'dinner':
+        this.meals$ = this.mealsService.getDinnerMeals(this.mealType);
+        console.log("in meal-board -  " + this.meals);
+        break;
+      default:
+        this.meals$ = of([]);  // empty observable if no valid meal type
+    }
 
   }
 }
