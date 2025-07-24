@@ -1,0 +1,11 @@
+<!-- meal-board.component.html -->
+<div class="meal-slider">
+  <ul class="meal-list">
+    @for(i of this.meals; track i.titleName){
+      <li class="meal-item">
+         <app-meal-item [meal]="i"></app-meal-item>
+      </li>
+    }
+  </ul>
+</div>
+<!-- <router-outlet></router-outlet> -->

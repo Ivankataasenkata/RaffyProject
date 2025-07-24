@@ -1,0 +1,65 @@
+.menu-wrapper {
+  height: 100vh;
+  background-image: url('/assets/images/gelato-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 140px;
+  gap: 30px;
+}
+
+.menu-box {
+  width: 350px;
+  height: 400px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.5); /* dark overlay for better contrast */
+  color: #fefefe;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+.menu-box:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+  transform: scale(1.05);
+}
+
+/* Meal list styles */
+.meal-list {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-top: 2px solid rgba(255,255,255,0.5);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+.meal-list h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #ffd700;
+}
+
+.meal-list ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+.meal-list li {
+  margin: 8px 0;
+}

@@ -1,0 +1,66 @@
+.about-wrapper {
+  height: 100vh;
+  background-image: url('/assets/images/gelato-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Darker transparent background for better contrast */
+  border: 2px solid rgba(255, 255, 255, 0.6); /* Softer white border */
+  padding: 40px;
+  width: 90%;
+  max-width: 900px;
+  color: #fefefe; /* Brighter, nearly white text */
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.intro {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.section {
+  margin-bottom: 25px;
+}
+
+.section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  color: #ffd700; /* Soft gold highlight for titles */
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.section p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.cta .visit-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ff6347; /* Tomato red for visibility */
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  transition: background-color 0.3s ease;
+}
+
+.cta .visit-button:hover {
+  background-color: #cc4c35;
+}

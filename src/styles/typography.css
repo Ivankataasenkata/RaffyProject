@@ -1,0 +1,92 @@
+
+:root {
+    --fs-body: clamp(12px, 12px + 0.2vw, 16px);
+    --fs-heading-6: clamp(0.8438rem, 0.725rem + 0.5938vw, 1.2rem);
+    --fs-heading-5: clamp(0.9492rem, 0.7856rem + 0.8188vw, 1.44rem);
+    --fs-heading-4: clamp(1.0679rem, 0.8478rem + 1.1002vw, 1.728rem);
+    --fs-heading-3: clamp(1.2014rem, 0.9106rem + 1.4537vw, 2.0736rem);
+    --fs-heading-2: clamp(1.3515rem, 0.9726rem + 1.8947vw, 2.4883rem);
+    --fs-heading-1: clamp(1.5205rem, 1.032rem + 2.445vw, 2.986rem);
+}
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: var(--fs-body);
+    line-height: 1.5;
+}
+
+body, input, textarea, button, select, option {
+    font: inherit;
+}
+
+p {
+    padding-bottom: 1.5em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1em;
+    margin-bottom: 0.4em;
+    line-height: 1.1;
+}
+
+ul, ol {
+    padding-bottom: 1.5em;
+}
+
+ul, ol {
+    padding-left: 2.5em;
+}
+
+blockquote, h1, h2, h3, h4, h5, h6 {
+    font-family: Georgia, serif;
+}
+
+h1 {
+    font-size: var(--fs-heading-1);
+}
+
+h2 {
+    font-size: var(--fs-heading-2);
+}
+
+h3 {
+    font-size: var(--fs-heading-3);
+}
+
+h4 {
+    font-size: var(--fs-heading-4);
+}
+
+h5 {
+    font-size: var(--fs-heading-5);
+}
+
+h6 {
+    font-size: var(--fs-heading-6)
+}
+
+p+h1, p+h2, p+h3, p+h4, p+h5, p+h6 {
+    padding-top: 0.5em;
+}
+
+blockquote {
+    padding: 0 2.5em;
+    border-left: 2px solid #000000;
+    font-family: Georgia, serif;
+    margin-bottom: 1.5em;
+}
+
+blockquote, p {
+    font-style: italic;
+}
+
+blockquote p+p {
+    padding-top: 1.5em;
+}
+
+blockquote p:last-child {
+    padding-bottom: 0;
+}
+
+blockquote p.author {
+    text-align: right;
+}

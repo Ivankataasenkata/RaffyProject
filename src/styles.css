@@ -1,0 +1,205 @@
+@import url('./styles/reset.css');
+@import url('./styles/layout.css');
+@import url('./styles/typography.css');
+@import url('./styles/responsive.css');
+
+@import url("https://fonts.googleapis.com/css2?family=Madimi+One&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  width: 100%;
+  background-image: url(../public/home.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* aspect-ratio: 16 / 9; */
+  width: 100%;
+  height: 100vh;
+  color: #fff;
+}
+
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1); /* Adjust transparency here */
+  pointer-events: none; /* Keeps the overlay from blocking interactions */
+  z-index: 1;
+}
+
+
+nav {
+  width: 100%;
+  padding: 2px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: rgba(0, 0, 0, 0.4); */
+  padding-bottom: 30px;
+  border-bottom: 2px solid white;
+}
+
+nav img.logo {
+  display: block; /* ensures it takes up space */
+   width: auto;
+  height: auto;
+   object-fit: contain;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 30px; /* spacing between list items */
+}
+
+nav li {
+  color: white;
+  font-family: "Madimi One", sans-serif; /* matches your body text */
+  font-size: 20px; /* matches <p>, or bump to 64px for <h1> look */
+  font-style: italic; /* matches your <p> style */
+  padding: 10px 20px;
+  border: 2px solid white;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3); /* keeps contrast readable */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+nav li:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* adds interactive feel */
+}
+
+nav li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  max-width: 100ch;;
+  margin-top: 5%;
+}
+
+.content h1 {
+  font-size: 64px;
+  margin: 60px auto 15px auto;
+  text-align: center;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  border: 2px solid white;
+  background-color: rgba(0, 0, 0, 0.4); /* semi-transparent black for contrast */
+  border-radius: 10px; /* optional: smooth corners */
+  max-width: fit-content;
+}
+
+.content p {
+  display: block;
+  line-height: 24px;
+  font-size: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 280px;
+  max-width: 100%;
+}
+
+.content .catalog {
+  display: inline-block;
+  margin-top: 30px;
+  margin-left: 45%;
+  background: #dbd1c1;
+  color: #fff;
+  text-decoration: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+  color: black;
+  font-weight: bold;
+}
+footer {
+  min-height: 220px; /* or whatever feels right */
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+footer p {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #dbd1c1;
+  color: black;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.errorContainer {
+  position: fixed;
+  margin-top:30px;
+  right: 100px;
+  min-width: 100px;
+  display: block;
+  z-index: 11111;
+  top: 55px;
+  text-align: center;
+  border-radius: 20px;
+  color: rgb(255, 255, 255);
+  height: auto;
+  width: 320px;
+  box-shadow: 0 5px 10px #dbd1c1;
+}
+
+.errorContainer > p {
+  background: #D1491C;
+  font-size: 20px;
+  padding: 20px;
+  height: auto;
+  border-radius: 20px;
+}
+
+.errorContainer {
+  -moz-animation: cssAnimation 0s ease-in 2s forwards;
+  /* Firefox */
+  -webkit-animation: cssAnimation 0s ease-in 2s forwards;
+  /* Safari and Chrome */
+  -o-animation: cssAnimation 0s ease-in 2s forwards;
+  /* Opera */
+  animation: cssAnimation 0s ease-in 2s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+  to {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+}
+
+@-webkit-keyframes cssAnimation {
+  to {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    padding: 0;
+  }
+}

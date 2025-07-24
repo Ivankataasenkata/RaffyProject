@@ -1,0 +1,39 @@
+/* meal-board.component.css */
+.breakfast-board {
+  display: flex;
+  flex-wrap: wrap;           /* allows multiple items to wrap within the space */
+  justify-content: center;   /* centers them horizontally */
+  gap: 1px;                 /* spacing between items */
+  /* padding: 20px; */
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Enlarges the scroll container */
+.meal-slider {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 40px; /* larger padding for breathing room */
+  border-radius: 12px;
+  scroll-behavior: smooth;
+}
+
+/* Horizontally scrollable list */
+.meal-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Meal cards styled for consistency and spacing */
+.meal-item {
+  /* flex: 0 0 calc(50% - 12px); ensures only two items are visible */
+  scroll-snap-align: start;
+  /* background-color: #fff; */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 10px;
+  box-sizing: border-box;
+}
