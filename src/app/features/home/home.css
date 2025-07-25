@@ -1,26 +1,23 @@
-body, html {
-  overflow-y: hidden;
-  height: 100%;
-  margin: 0;
+.home h1 {
+  font-size: 3rem;
+  margin-bottom: 6rem;
 }
 
-.meal-section {
-  height: 100vh;
-  background-image: url('../../../../public/home.png'); /* Keep your current image path */
+.home p {
+  font-size: 1.25rem;
+  max-width: 600px;
+}
+
+.home {
+  height: 70vh;
   background-size: cover;
   background-position: center;
   display: flex;
   flex-direction: column;
-}
-
-.meal-box {
-  flex: 1;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  border: 2px solid white;
-  background-color: rgba(255, 255, 255, 0.3); /* transparent white */
-  font-size: 2rem;
-  font-weight: bold;
-  color: #fff;
-}
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.5); /* slight overlay for contrast */
+} 

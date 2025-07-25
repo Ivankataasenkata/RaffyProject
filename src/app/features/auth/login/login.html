@@ -1,0 +1,32 @@
+<div class="container login-container">
+    <form class="login-form" (ngSubmit)="onSubmit()" method="post">
+        <fieldset>
+            <h2 class="form-title">Welcome Back</h2>
+
+            <p class="form-field">
+                <label for="email"><i class="fas fa-envelope"></i></label>
+                <input type="email" name="email" id="email" placeholder="you@raffy.bg" [(ngModel)]="email"
+                    (blur)="validateEmail()" class="input-field" />
+            </p>
+            @if(emailError){
+            <p class="error-msg">{{emailErrorMessage}}</p>
+            }
+
+            <p class="form-field">
+                <label for="password"><i class="fas fa-lock"></i></label>
+                <input type="password" name="password" id="password" placeholder="Your secret spice"
+                    [(ngModel)]="password" (blur)="validatePassword()" class="input-field" />
+            </p>
+            @if(passwordError){
+            <p class="error-msg">{{passwordErrorMessage}}</p>
+            }
+
+            <div class="login-section">
+                <button class="login-btn">Login</button>
+                <div class="register-msg">
+                    New to Raffy? <a routerLink="/register">Create Account</a>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

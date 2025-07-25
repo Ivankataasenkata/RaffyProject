@@ -74,3 +74,19 @@
   width: 100%;
   text-align: center;
 }
+
+.details-btn {
+  margin-top: 1em;
+  padding: 0.6em 1.2em;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.details-btn:hover {
+  background-color: #2980b9;
+}

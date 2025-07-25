@@ -1,0 +1,56 @@
+/* Full height layout and reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+}
+
+/* Navigation bar styles */
+nav ul {
+  /* width: 100%; */
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 1rem;
+  margin: 0;
+}
+
+nav li {
+  margin: 0 1rem;
+}
+
+li:active {
+  border-color: #ffccdd;         /* Light pink border */
+  box-shadow: 0 0 8px #ffccdd;   /* Soft outer glow */
+}
+
+li a {
+  display: block;             /* Makes the anchor take up full width of its container */
+  text-align: center;         /* Centers the text horizontally */
+  font-size: 1.2rem;          /* Increases font size */
+  padding: 0.9rem 0.5rem;       /* Adds space around the text */
+  color: #fff;              /* Ensures text is visible */
+  font-weight: bold;          /* Optional: makes it pop more */
+  text-decoration: none;      /* Removes underline */
+}
+
+nav p {
+  display: block;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.9rem 0.5rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+
+

@@ -5,11 +5,12 @@ import { MealsService } from '../../../../core/services/meals.service';
 import { MealItem } from '../meal-item/meal-item';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { MealDetails } from '../meal-details/meal-details';
 
 
 @Component({
   selector: 'app-meal-board',
-  imports: [MealItem, CommonModule],
+  imports: [MealItem, CommonModule, MealDetails],
   templateUrl: './meal-board.html',
   styleUrl: './meal-board.css'
 })

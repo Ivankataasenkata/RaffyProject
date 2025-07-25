@@ -63,3 +63,8 @@
 .meal-list li {
   margin: 8px 0;
 }
+
+.menu-box:active {
+  border-color: #f0ed30;         /* Light pink border */
+  box-shadow: 0 0 6px #ffccdd;   /* Soft outer glow */
+}

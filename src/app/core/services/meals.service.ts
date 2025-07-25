@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Meal } from "../../models";
 
 
@@ -39,4 +39,15 @@ export class MealsService {
 
         return this.httpClient.get<Meal[]>(apiUrl);
     }
+
+    getMealByIdAndType(mealType: string, id: string): Observable<any> {
+
+
+        const apiUrl = `${this.baseApiUrl}/${mealType}`;
+
+
+        console.log(`In meal service - ${this.httpClient.get(`${apiUrl}/${id}`)}`);
+
+        return this.httpClient.get(`${apiUrl}/${id}`);
+    }    
 }

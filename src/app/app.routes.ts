@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import {NotFound} from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
     {
@@ -35,5 +36,26 @@ export const routes: Routes = [
     {
         path: 'dinner',
         loadComponent: () => import('./features/menu/breakfast/meal-board/meal-board').then(c => c.MealBoard)
+    },
+    {
+        path: 'meal/:id',
+        loadComponent: () => import('./features/menu/breakfast/meal-details/meal-details').then(c =>c.MealDetails)
+    },
+    {
+        path: 'login',
+        loadComponent: () => import('./features/auth/login/login').then(c => c.Login)
+    },
+    {
+        path: 'register',
+        loadComponent: () => import('./features/auth/register/register').then(c => c.Register)
+    },
+    {
+        path: 'logout',
+        redirectTo: '/home',
+        pathMatch: 'full'
+    },
+    {
+        path: '**',
+        component: NotFound
     }
 ];   

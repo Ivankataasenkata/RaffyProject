@@ -133,22 +133,6 @@ nav li a {
   color: black;
   font-weight: bold;
 }
-footer {
-  min-height: 220px; /* or whatever feels right */
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-footer p {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #dbd1c1;
-  color: black;
-  font-weight: bolder;
-  text-align: center;
-}
 
 .errorContainer {
   position: fixed;

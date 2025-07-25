@@ -1,0 +1,90 @@
+.login-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #C2185B;
+}
+
+.form-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-field label {
+  margin-right: 0.5rem;
+  color: #333;
+}
+
+.input-field {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  outline: none;
+  border-bottom: 2px solid #C2185B;
+}
+
+.error-msg {
+  color: #D32F2F;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;  /* makes sure items stack vertically */
+  align-items: center;
+  gap: 0.2rem; 
+}
+
+.login-btn {
+  padding: 0.75rem;
+  background-color: #C2185B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 0.8rem;
+  order: 0;
+}
+
+.login-btn:hover {
+  background-color: #AD1457;
+}
+
+.register-msg {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: black;              /* sets the text color to black */
+  border: 1px solid black;   /* thin black border around the message */
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.85); /* keeps it visible over images or gradients */
+  order: 1;
+  margin-bottom: 1em;
+}

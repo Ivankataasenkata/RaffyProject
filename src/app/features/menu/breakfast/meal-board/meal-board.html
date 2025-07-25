@@ -13,7 +13,7 @@
   <ul class="meal-list">
     @for(i of meals$ | async; track i.titleName){
       <li class="meal-item">
-         <app-meal-item [meal]="i"></app-meal-item>
+         <app-meal-item [meal]="i" [mealType]="mealType"></app-meal-item>
       </li>
     }
   </ul>

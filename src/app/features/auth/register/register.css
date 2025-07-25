@@ -1,0 +1,79 @@
+.register {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.register h2 {
+  margin-bottom: 24px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 24px;
+  color: #333;
+}
+
+.field {
+  margin-bottom: 1px;
+  position: relative;
+}
+
+.field-icon i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+label {
+    color: #333;
+}
+
+/* Error message */
+p.error {
+  color: #f44336; /* soft crimson red */
+  background-color: #ffeeee;
+  border: 1px solid #f44336;
+  padding: 8px 12px;
+  margin-top: 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 500;
+  box-shadow: 0 0 5px rgba(244, 67, 54, 0.3);
+  animation: shake 0.3s ease;
+}
+
+/* Shake animation for subtle attention */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+/* Highlight input when there's an error */
+.input-error {
+  border: 1px solid #f44336;
+  background-color: #fff8f8;
+  box-shadow: 0 0 5px rgba(244, 67, 54, 0.4);
+}
