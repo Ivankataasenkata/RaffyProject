@@ -1,121 +1,166 @@
 import { Component, inject } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Router, RouterLink, TitleStrategy } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css'
 })
 export class Register {
+
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  username: string = '';
-  email: string = '';
-  phone: string = '';
-  password: string = '';
-  rePassword: string = ''
+  private formBuilder = inject(FormBuilder);
+  registerForm: FormGroup;
 
-  usernameError: boolean = false;
-  emailError: boolean = false;
-  phoneError: boolean = false;
-  passwordError: boolean = false;
-  rePasswordError: boolean = false;
-
-  usernameErrorMessage: string = '';
-  emailErrorMessage: string = '';
-  phoneErrorMessage: string = '';
-  passwordErrorMessage: string = '';
-  rePasswordErrorMessage: string = '';
-
-  validateUsername(): void {
-    if (!this.username) {
-      this.usernameError = true;
-      this.emailErrorMessage = 'Username is required!';
-    } else {
-      this.usernameError = false;
-      this.emailErrorMessage = '';
-    }
+  constructor(){
+    this.registerForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(5)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      passwords: this.formBuilder.group({
+        password: ['', [Validators.required, Validators.minLength(5), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
+        rePassword: ['', [Validators.required, this.passwordMatchValidator]]
+      })
+    });
   }
 
-  validateEmail(): void {
-    if (!this.email) {
-      this.emailError = true;
-      this.emailErrorMessage = 'Email is required!';
-    } else if (!this.isValidEmail(this.email)) {
-      this.emailError = true;
-      this.emailErrorMessage = 'Email is not valid!';
-    } else {
-      this.emailError = false;
-      this.emailErrorMessage = '';
-    }
+  get username(): AbstractControl<any, any> | null {
+    return this.registerForm.get('username');
   }
 
-  validatePhone(): void {
-    if (!this.phone) {
-      this.phoneError = true;
-      this.phoneErrorMessage = 'Phone is required!';
-    } else if (!this.isValidPhone(this.phone)) {
-      this.phoneError = true;
-      this.phoneErrorMessage = 'Phone is not valid!';
-    } else {
-      this.phoneError = false;
-      this.phoneErrorMessage = '';
-    }
+  get email(): AbstractControl<any, any> | null {
+    return this.registerForm.get('email');
   }
 
-  validatePassword(): void {
-    if (!this.password) {
-      this.passwordError = true;
-      this.passwordErrorMessage = 'Password is required!';
-    } else if (this.password.length < 4) {
-      this.passwordError = true;
-      this.passwordErrorMessage = 'Password must be at least 4 characters long';
-    } else {
-      this.passwordError = false;
-      this.passwordErrorMessage = '';
-    }
-
-    if (this.rePassword) {
-      this.validateRePassword();
-    }
+   get phone(): AbstractControl<any, any> | null {
+    return this.registerForm.get('phone');
   }
 
-  validateRePassword(): void {
-    if (!this.rePassword) {
-      this.rePasswordError = true;
-      this.rePasswordErrorMessage = 'Repeat Password is required!';
-    } else if (this.password !== this.rePassword) {
-      this.rePasswordError = true;
-      this.rePasswordErrorMessage = 'Repeat Password must be equal with password';
-    } else {
-      this.rePasswordError = false;
-      this.rePasswordErrorMessage = '';
-    }
+
+  get passwords(): FormGroup<any> {
+    return this.registerForm.get('passwords') as FormGroup;
   }
 
-  isFormValid(): boolean {
-    return Boolean(this.username) && Boolean(this.email) && Boolean(this.password) && Boolean(this.phone)
-      && !this.usernameError && !this.rePasswordError && !this.phoneError && !this.emailError && !this.passwordError;
+  get password(): AbstractControl<any, any> | null {
+    return this.passwords.get('password');
+  }
+
+  get rePassword(): AbstractControl<any, any> | null {
+    return this.passwords.get('rePassword');
+  }
+ //////////////////////////////////////////
+ get isUsernameValid() : boolean {
+    return this.username?.invalid && (this.username?.dirty || this.username?.touched) || false;
+ }
+ 
+   get isEmailValid() : boolean {
+    return this.email?.invalid && (this.email?.dirty || this.email?.touched) || false;
+   }
+
+  get isPasswordsValid() : boolean {
+    return this.passwords?.invalid && (this.passwords?.dirty || this.passwords?.touched) || false;
+  } 
+
+  ///////////////////////////////////////////////
+
+  get usernameErrorMessage(): string {
+    if (this.username?.errors?.['required']) {
+      return 'Username is required!';
+    }
+
+    if (this.username?.errors?.['minlength']) {
+      return 'Username should be at least 5 characters long'
+    }
+
+    return '';
+  }
+
+   get emailErrorMessage(): string {
+    if(this.email?.errors?.['required']){
+      return 'Email is required!';
+    } 
+
+    if(this.email?.errors?.['email']){
+      return 'Email is not valid!';
+    } 
+
+    return '';
+  } 
+
+  get passwordErrorMessage() : string {
+     if (this.password?.errors?.['required']) {
+      return 'Password is required!';
+    }
+
+    if(this.password?.errors?.['minldength']){
+      return 'Password must be at least 5 characters long';
+    }
+
+    if (this.password?.errors?.['pattern']) {
+      return 'Password is not valid!'
+    }
+    return '';
+  }
+
+    get rePasswordErrorMessage() : string {
+     if (this.rePassword?.errors?.['required']) {
+      return 'Password is required!';
+    }
+
+    if (this.rePassword?.errors?.['passwordMisMatch']) {
+      return 'Repeat Password do not match!'
+    }
+    return '';
   }
 
   onSubmit(): void {
-    this.validateUsername();
-    this.validatePhone();
-    this.validateEmail();
-    this.validatePassword();
-    this.validateRePassword();
 
-    if (this.isFormValid()) {
-      const response: boolean = this.authService.register(this.username, this.email, this.phone, this.password, this.rePassword);
+    if(this.registerForm.valid){
+      const {username, email, phone} = this.registerForm.value;
+      const {password, rePassword} = this.registerForm.value.passwords;
 
-      if (response === true) {
+      const response: boolean = this.authService.register(username, email, phone, password, rePassword);
+
+      this.markFormGroupTouched();
+
+      if(response === true){
         this.router.navigate(['/home']);
+      }else {
+
       }
     }
+  }
+
+  private passwordMatchValidator(passwordsControl: AbstractControl): ValidationErrors | null{
+    const password = passwordsControl.get('password');
+    const rePassword = passwordsControl.get('rePassword');
+
+    if(password && rePassword && password !== rePassword){
+      return { passwordMisMatch: true}
+    }
+
+    return null;
+  }
+
+  
+  private markFormGroupTouched (): void {
+    Object.keys(this.registerForm.controls).forEach(key => {
+      const control = this.registerForm.get(key);
+      if (control instanceof FormGroup) {
+        Object.keys(control.controls).forEach(nestedKey => {
+          const nestedControl = control.get(nestedKey);
+          nestedControl?.markAsTouched();
+        })
+      }else {
+          control?.markAsTouched();
+        }
+      
+    })
   }
 
   private isValidEmail(email: string): boolean {

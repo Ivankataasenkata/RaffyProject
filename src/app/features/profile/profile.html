@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="profile"><img src="./profile.png" alt="default user">
+        <h3>{{currentUser()?.username}}`s profile</h3>
+        @if(!isEditMode){
+        <div class="flex">
+            <p>Username: </p>
+            <p>{{currentUser()?.username || 'N/A'}}</p>
+        </div>
+        <div class="flex">
+            <p>Email: </p>
+            <p>{{currentUser()?.email}}</p>
+        </div>
+        <div class="flex">
+            <p>Phone: </p>
+            <p>{{currentUser()?.phone}}</p>
+        </div>
+        <button class="edit-button" (click)="onEdit()">Edit</button>
+        } @else {
+            <form [formGroup]="profileForm" action="">
+                <div class="flex">
+                    <p>Username: </p>
+                    <input [class.input-error]="isUsernameValid" type="text" formControlName="username" id="username" value="Johny">
+                    @if(isUsernameValid){
+                         <p class="error">
+                            {{usernameErrorMessage}}
+                        </p>
+                    }
+                </div>
+                <div class="flex">
+                    <p>Email: </p>
+                    <input [class.input-error]="isEmailValid" type="email" formControlName="email" id="email" value="john.doe@gmail.com">
+                    @if(isEmailValid){
+                         <p class="error">
+                            {{emailErrorMessage}}
+                        </p>
+                    }
+                </div>
+                <div class="flex">
+                    <p>Phone: </p>
+                    <div>     
+                        <input type="text" name="tel" formControlName="phone" id="tel" value="885 888 888">
+                        
+                    </div>
+                </div>
+                <button (click)="onCancel()" class="red-button">Cancel</button>
+                <button class="green-button">Save</button>
+            </form>
+        }
+
+    </div>
+</div>

@@ -10,7 +10,7 @@ import { MealDetails } from '../meal-details/meal-details';
 
 @Component({
   selector: 'app-meal-board',
-  imports: [MealItem, CommonModule, MealDetails],
+  imports: [MealItem, CommonModule],
   templateUrl: './meal-board.html',
   styleUrl: './meal-board.css'
 })

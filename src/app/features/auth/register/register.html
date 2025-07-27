@@ -1,76 +1,61 @@
 <div class="container">
-    <form class="register"  (ngSubmit)="onSubmit()" action="" method="post">
+    <form class="register" [formGroup]="registerForm" (ngSubmit)="onSubmit()" action="" method="post">
 
         <fieldset>
             <h2>Registration Form</h2>
 
             <!-- username -->
             <p class="field field-icon">
-                <label for="username">Username<span><i class="fas fa-user"></i></span></label>
-                <input class="input-error" type="text" name="username" id="username" placeholder="Johny"  [(ngModel)]="username" (blur)="validateUsername()">
+                <label for="username"><span><i class="fas fa-user"></i></span></label>
+                <input [class.input-error]="isUsernameValid" type="text" id="username" placeholder="Johny"
+                    formControlName="username">
             </p>
 
-            @if(usernameError){
-                 <p class="error">
-                   {{usernameErrorMessage}}
-                </p>
+            @if(isUsernameValid){
+            <p class="error">
+                {{usernameErrorMessage}}
+            </p>
             }
-           
+
 
             <!-- email -->
             <p class="field field-icon">
-                <label for="email">Email<span><i class="fas fa-envelope"></i></span></label>
-                <input type="email" name="email" id="email" placeholder="john.doe@gmail.com" [(ngModel)]="email" (blur)="validateEmail()">
+                <label for="email"><span><i class="fas fa-envelope"></i></span></label>
+                <input [class.input-error]="isEmailValid" type="email" id="email" placeholder="john.doe@gmail.com"
+                    formControlName="email">
             </p>
-            @if(emailError){
-                <p class="error">
-                   {{emailErrorMessage}}
-                </p>
+            @if(isEmailValid){
+            <p class="error">
+                {{emailErrorMessage}}
+            </p>
             }
-            <!-- 
-                <p class="error">
-                    Email is not valid!
-                </p> -->
 
-            <!-- telephone -->
-            <p class="field field-icon">
-                <label for="tel">Telephone Number<span><i class="fas fa-phone"></i></span></label>
-                <select name="select-tel" id="select-tel" class="tel">
-                        <option value="00359">+359</option>
-                </select>
-                <input type="text" name="tel" id="tel" placeholder="885 888 888" [(ngModel)]="phone" (blur)="validatePhone()">
-            </p>
-
-            <!-- password -->
-            <p class="field field-icon">
-               
-                <label for="password">Password<span><i class="fas fa-lock"></i></span></label>
-                <input type="password" name="password" id="password" placeholder="******" [(ngModel)]="password" (blur)="validatePassword()">
-            </p>
-            @if(passwordError){
-                <p class="error">
-                   {{passwordErrorMessage}}
+            <div formGroupName="passwords">
+                <!-- password -->
+                <p class="field field-icon">
+                    <label for="password"><span><i class="fas fa-lock"></i></span></label>
+                    <input type="password" [class.input-error]="isPasswordsValid" id="password" placeholder="******"
+                        formControlName="password">
                 </p>
-            }
-            <!-- <p class="error">
-                    Password is required!
-                </p>
+                @if(isPasswordsValid){
                 <p class="error">
-                    Password must be at least 4 characters!
-                </p> -->
+                    {{passwordErrorMessage}}
+                </p>
+                }
 
-            <!-- rePassword -->
-            <p class="field field-icon">
-                
-                <label for="rePassword">Repeat Password<span><i class="fas fa-lock"></i></span></label>
-                <input type="password" name="rePassword" id="rePassword" placeholder="******">
-            </p>
-            <!-- <p class="error">Repeat Password does not match password!</p> -->
-             @if(rePasswordError){
+                <!-- rePassword -->
+                <p class="field field-icon">
+                    <label for="rePassword"><span><i class="fas fa-lock"></i></span></label>
+                    <input type="password" [class.input-error]="isPasswordsValid" id="rePassword" placeholder="******"
+                        formControlName="rePassword">
+                </p>
+
+                @if(isPasswordsValid){
                 <p class="error">Repeat Password does not match password!</p>
-             }
+                }
+            </div>
 
-            <button [disabled]="!isFormValid()">Create Account</button>
+            <button [disabled]="registerForm.invalid">Create Account</button>
 
             <p class="text-center">
                 Have an account?

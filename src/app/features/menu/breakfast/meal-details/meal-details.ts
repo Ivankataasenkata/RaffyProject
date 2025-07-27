@@ -1,18 +1,21 @@
-import { Component, inject, Input, input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Meal } from '../../../../models';
 import { MealsService } from '../../../../core/services/meals.service';
+import { map, Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-meal-details',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './meal-details.html',
   styleUrl: './meal-details.css'
 })
-export class MealDetails implements OnInit{
+export class MealDetails implements  OnInit{
   @Input() mealType!: string;
 
+  meal$!: Observable<Meal>;
   meal: Meal | undefined;
   mealId: string = '';
  
@@ -29,16 +32,17 @@ export class MealDetails implements OnInit{
   //   });
   // }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
   this.route.queryParamMap.subscribe(params => {
     const mealType = params.get('mealType')!;
     this.mealId = this.route.snapshot.paramMap.get('id')!;
     
     console.log(`mealtype - ${mealType}`);
 
-    this.mealService.getMealByIdAndType(mealType, this.mealId).subscribe((data: Meal) => {
-      this.meal = data;
-    });
+    this.meal$ = this.mealService.getMealByIdAndType(mealType, this.mealId).pipe(map((data: Meal) => {
+        return data;
+    }));
+   
   });
 }
 
