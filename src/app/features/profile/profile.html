@@ -16,7 +16,7 @@
         </div>
         <button class="edit-button" (click)="onEdit()">Edit</button>
         } @else {
-            <form [formGroup]="profileForm" action="">
+            <form [formGroup]="profileForm" action="" (ngSubmit)="onSave()">
                 <div class="flex">
                     <p>Username: </p>
                     <input [class.input-error]="isUsernameValid" type="text" formControlName="username" id="username" value="Johny">
@@ -42,8 +42,8 @@
                         
                     </div>
                 </div>
-                <button (click)="onCancel()" class="red-button">Cancel</button>
-                <button class="green-button">Save</button>
+                <button (click)="onCancel()" class="red-button" type="button">Cancel</button>
+                <button [disabled]="profileForm.invalid" class="green-button" type="submit">Save</button>
             </form>
         }
 
