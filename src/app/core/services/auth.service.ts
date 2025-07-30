@@ -1,6 +1,8 @@
-import { Injectable, signal, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, signal, Inject, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { User } from '../../models/user';
+import { UserService } from './userService';
+import { BehaviorSubject, first, map, Observable, of, take, tap } from 'rxjs';
 
 
 @Injectable({
@@ -9,13 +11,18 @@ import { User } from '../../models/user';
 
 export class AuthService {
 
+    protected userService = inject(UserService);
+    // _users$: Observable<User[]>;
+    private _users$ = new BehaviorSubject<User[]>([]);
+    public users$ = this._users$.asObservable(); 
+
     private _isLoggedIn = signal<boolean>(false);
     private _currentUser = signal<User | null>(null);
-    private _users: User[] = [
-        {id: '5fa64b162183ce1728ff371d', username: 'John', email: 'john.doe@gmail.com', phone: '+359 885 888 234'},
-        {id: '5fa64ca72183ce1728ff3726', username: 'Jane',email: 'john.doe@gmail.com', phone: '+359 885 888 234'},
-        {id: '5fa64a072183ce1728ff3719', username: 'David',email: 'john.doe@gmail.com', phone: '+359 885 888 234'},
-    ];
+    // private _users: User[] = [
+    //     {_id: '5fa64b162183ce1728ff371d', username: 'John', email: 'john.doe@gmail.com', phone: '+359 885 888 234'},
+    //     {_id: '5fa64ca72183ce1728ff3726', username: 'Jane',email: 'john.doe@gmail.com', phone: '+359 885 888 234'},
+    //     {_id: '5fa64a072183ce1728ff3719', username: 'David',email: 'john.doe@gmail.com', phone: '+359 885 888 234'},
+    // ];
 
     public isLoggedIn = this._isLoggedIn.asReadonly();
     public currentUser = this._currentUser.asReadonly();
@@ -33,41 +40,59 @@ export class AuthService {
             }
         }
         
+        this.loadUsers();
     }
 
-    login(email: string, password: string): boolean {
-        if(email && password){
-            const user = this._users[0];
-            this._currentUser.set(user);
-            this._isLoggedIn.set(true);
-
-            localStorage.setItem('currentUser', JSON.stringify(user));
-
-            return true;
+    login(email: string, password: string): Observable<boolean> {
+        if(!email || !password){
+           return of(false);
         }
 
-        return false;
+        return this._users$.pipe(
+            first(),
+            map(users => {
+                const user = users.find(u => u.email === email && u.password === password);
+
+                if (user) {
+                    this._currentUser.set(user);
+                    this._isLoggedIn.set(true);
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    return true;
+                }
+                return false;
+            })
+        )
     }
 
-    register(username: string, email: string,phone: string, password: string, rePassword: string): boolean {
-        if(username && email && phone && password && rePassword){
-            const newUser: User = {
-                id: `user_${Date.now}`,
+//     this.authService.login(email, password).subscribe(success => {
+//   if (success) {
+//     console.log('Login successful');
+//   } else {
+//     console.log('Invalid credentials');
+//   }
+// });
+
+    register(username: string, email: string, password: string, rePassword: string): Observable<boolean> {
+        if(!username || !email || !password || !rePassword || password !== rePassword){
+           return of(false);
+        }
+
+         const newUser: User = {
                 username: username,
                 email: email,
-                phone: phone
-            };
+                password: password
+        };
 
-            this._users.push(newUser);
-            this._currentUser.set(newUser);
-            this._isLoggedIn.set(true);
+        console.log(newUser);
 
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-
-             return true;
-        }
-
-         return false;
+        return this.userService.saveUser(newUser).pipe(
+            map((user: User) => {
+                this._currentUser.set(user);
+                this._isLoggedIn.set(true);
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                return true;
+            })
+        );
     }
 
     logout(): void {
@@ -77,18 +102,35 @@ export class AuthService {
     }
 
     getCurrentUserId(): string | null{
-        return this._currentUser()?.id || null;
+        return this._currentUser()?._id || null;
     }
 
-    update(user: User): void {
-        const userIndex = this._users.findIndex(u => u.id == user.id);
+   update(user: User): void {
 
-        if(userIndex !== -1){
-            this._users[userIndex] = user;
+    const currentUserId = this.getCurrentUserId();
+        if (!currentUserId || currentUserId !== user._id) {
+            console.warn('User ID mismatch or no current user');
+            return;
+         }
 
-            this._currentUser.set(user);
+        this.userService.updateUser(user).subscribe(updatedUser => {
+            const users = this._users$.getValue();
+            const updatedUsers = users.map(u =>
+                u._id === updatedUser._id ? updatedUser : u
+            );
+            this._users$.next(updatedUsers);
 
-            localStorage.setItem('currentUser', JSON.stringify(user));
-        }
+            // Update current user reference and localStorage
+            this._currentUser.set(updatedUser);
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        }, error => {
+            console.error('Failed to update user', error);
+        });
     }
+
+    private loadUsers() {
+    this.userService.getUsers().subscribe(users => {
+        this._users$.next(users);
+    });
+}
 }

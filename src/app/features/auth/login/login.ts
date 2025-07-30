@@ -57,7 +57,7 @@ export class Login {
       return 'Password is required!';
     }
 
-    if(this.password?.errors?.['minldength']){
+    if(this.password?.errors?.['minlength']){
       return 'Password must be at least 5 characters long';
     }
 
@@ -67,13 +67,14 @@ export class Login {
   onSubmit(): void {
  
     if(this.loginForm.valid){
-      const response: boolean = this.authService.login(this.email?.value, this.password?.value);
-
-      if(response === true){
-        this.router.navigate(['/home']);
-      }else {
-        this.isFormGroupTouched();
-      }
+       this.authService.login(this.email?.value, this.password?.value).subscribe(response => {
+        console.log(response);
+        if(response === true){
+          this.router.navigate(['/home']);
+        }else {
+          this.isFormGroupTouched();
+        }
+      });
     }
   }
 
@@ -86,7 +87,7 @@ export class Login {
 }
 
   export function emailValidator(emailControl: AbstractControl): ValidationErrors | null {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/i;
 
     const email = emailControl.value;
 

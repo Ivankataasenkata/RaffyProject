@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Router, RouterLink, TitleStrategy } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -97,7 +97,7 @@ export class Register {
       return 'Password is required!';
     }
 
-    if(this.password?.errors?.['minldength']){
+    if(this.password?.errors?.['minlength']){
       return 'Password must be at least 5 characters long';
     }
 
@@ -120,27 +120,31 @@ export class Register {
 
   onSubmit(): void {
 
+    console.log('in register form on submit');
     if(this.registerForm.valid){
-      const {username, email, phone} = this.registerForm.value;
+      const {username, email} = this.registerForm.value;
       const {password, rePassword} = this.registerForm.value.passwords;
 
-      const response: boolean = this.authService.register(username, email, phone, password, rePassword);
+      console.log(username);
 
-      this.markFormGroupTouched();
-
-      if(response === true){
-        this.router.navigate(['/home']);
-      }else {
-
+      this.authService.register(username, email, password, rePassword).subscribe((response:Boolean) => {
+        console.log('Registration response:', response);
+         if(response === true){
+            this.router.navigate(['/home']);
+          }else {
+            this.markFormGroupTouched();
+          }
+        });
       }
-    }
-  }
+
+      console.log(this.registerForm.value);
+  }  
 
   private passwordMatchValidator(passwordsControl: AbstractControl): ValidationErrors | null{
     const password = passwordsControl.get('password');
     const rePassword = passwordsControl.get('rePassword');
 
-    if(password && rePassword && password !== rePassword){
+    if(password && rePassword && password.value !== rePassword.value){
       return { passwordMisMatch: true}
     }
 

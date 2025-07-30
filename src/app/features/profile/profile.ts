@@ -77,8 +77,7 @@ export class Profile {
 
     this.profileForm.patchValue({
       username: user?.username,
-      email: user?.email,
-      phone: user?.phone
+      email: user?.email
     });
 
     this.isEditMode = true;
@@ -95,8 +94,7 @@ export class Profile {
 
       const user = <User> {
         username: username,
-        email: email,
-        phone: phone
+        email: email
       }
 
       this.authService.update(user);
