@@ -3,11 +3,12 @@ import { Component, inject, Input,  } from '@angular/core';
 import { Meal } from '../../../../models';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { SliceTitle } from '../../../../shared/pipes/slice-title.pipe';
 
 
 @Component({
   selector: 'app-meal-item',
-  imports: [CommonModule],
+  imports: [CommonModule, SliceTitle],
   templateUrl: './meal-item.html',
   styleUrl: './meal-item.css'
 })

@@ -2,11 +2,11 @@
 
   
   <div class="header-container">
-    <h2 class="meal-title">{{ meal.titleName }}</h2>
+    <h2 class="meal-title">{{ meal.titleName | sliceTitle}}</h2>
   </div>
 
   <div class="image-container">
-    <img [src]="meal.img" alt="{{ meal.titleName }}">
+    <img [src]="meal.img" alt="{{ meal.titleName | sliceTitle}}">
   </div>
 
    @if(isLoggIn()){
