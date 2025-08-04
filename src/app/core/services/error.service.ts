@@ -14,4 +14,10 @@ export class ErrorService {
         this._error.set(message);
         setTimeout(() => this._error.set(null), 5000);
     }
+
+    setSuccess(message: string): void {
+
+    }
+
+    
 }

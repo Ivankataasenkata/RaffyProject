@@ -25,6 +25,10 @@ export class UserService {
     }
 
     updateUser(user: User): Observable<User> {
-    return this.httpClient.put<User>(`${this.apiUrl}${user._id}`, user);
-}
+        return this.httpClient.put<User>(`${this.apiUrl}${user._id}`, user);    
+    }
+
+    // updateUser(user: Partial<User> & { _id: string }): Observable<User> {
+    //     return this.httpClient.put<User>(`${this.apiUrl}${user._id}`, user);
+    // }
 }

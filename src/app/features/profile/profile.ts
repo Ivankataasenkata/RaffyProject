@@ -90,7 +90,7 @@ export class Profile {
 
   onSave(): void {
     if(this.profileForm.valid){
-      const {username, email, phone} = this.profileForm.value;
+      const {username, email} = this.profileForm.value;
 
       const user = <User> {
         username: username,

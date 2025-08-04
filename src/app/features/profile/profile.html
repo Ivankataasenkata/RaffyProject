@@ -34,13 +34,16 @@
                         </p>
                     }
                 </div>
-                <div class="flex">
-                    <p>Phone: </p>
-                    <div>     
-                        <input type="text" name="tel" formControlName="phone" id="tel" value="885 888 888">
-                        
-                    </div>
-                </div>
+                <!-- <div class="flex">
+                     Reservation Preview Section
+                    <h3>Reservation Preview</h3>
+                    <p><strong>Date:</strong> {{ reservationDate }}</p>
+                    <p><strong>Table Type:</strong> {{ tableTypeLabel }}</p>
+                    <p><strong>Hour:</strong> {{ hour }}</p>
+                    <p><strong>Number of People:</strong> {{ people }}</p>
+                    <button (click)="editReservation()">Edit</button>
+                    <button (click)="deleteReservation()">Delete</button>
+                </div> -->
                 <button (click)="onCancel()" class="red-button" type="button">Cancel</button>
                 <button [disabled]="profileForm.invalid" class="green-button" type="submit">Save</button>
             </form>

@@ -1,0 +1,44 @@
+<div class="reservation-container">
+    <div *ngIf="!isPreviewing">
+
+  <!-- <label for="reservationName">Reservation Name:</label>
+  <input type="text" id="reservationName" name="reservationName" [(ngModel)]="reservationName" /> -->
+
+  <label for="date">Select Date:</label>
+  <input type="date" id="date" name="reservationDate" [(ngModel)]="reservationDate" />
+
+  <label for="tableType">Table Type:</label>
+  <select id="tableType" name="tableType" [(ngModel)]="tableType">
+    <option value="" disabled>Select Table</option>
+    <option *ngFor="let type of tableTypes" [value]="type.value">
+      {{type.label}}
+    </option>
+  </select>
+
+  <label for="hour">Select Hour:</label>
+  <select id="hour" name="hour" [(ngModel)]="hour">
+    <option value="" disabled>Select Time</option>
+    <option *ngFor="let time of hours" [value]="time">
+      {{time}}
+    </option>
+  </select>
+
+  <label for="people">Number of People:</label>
+  <input id="people" name="people" type="number" min="1" [(ngModel)]="people" placeholder="Enter number of people" />
+
+  <button (click)="previewReservation()">Preview</button>
+  <button (click)="saveReservation()">Save</button>
+</div>
+
+<div *ngIf="isPreviewing" class="preview-section">
+    <h3>Reservation Preview</h3>
+    <p><strong>Date:</strong> {{ reservationDate }}</p>
+    <p><strong>Table Type:</strong> {{tableTypeLabel}}</p>
+    <p><strong>Hour:</strong> {{ hour }}</p>
+    <p><strong>Number of People:</strong> {{ people }}</p>
+    <button (click)="editReservation()">Edit</button>
+    <button (click)="saveReservation()">Confirm</button>
+</div>
+</div>
+
+

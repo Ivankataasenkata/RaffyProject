@@ -54,6 +54,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/profile/profile').then(c => c.Profile)
     },
     {
+        path: 'reservation',
+        loadComponent: () => import('./features/reservation/reservation').then(c => c.ReservationClass)
+    },
+    {
         path: 'logout',
         redirectTo: '/home',
         pathMatch: 'full'
