@@ -9,6 +9,7 @@ import { SuccessService } from '../../core/services/success.service';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../models/user';
 import { UserService } from '../../core/services/userService';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-reservation',
@@ -24,6 +25,8 @@ export class ReservationClass implements OnInit {
   tableType: string = '';
   hour: string = '';
   people!: number;
+
+  user$!: Observable<User>;
 
   isPreviewing: boolean = false;
   private errorService = inject(ErrorService);
@@ -74,48 +77,53 @@ export class ReservationClass implements OnInit {
 
   saveReservation() {
 
-    console.log(this.currentUser()?._id);
+    console.log(this.currentUser()?.username);
 
-    const resData: Reservation = {
-      userId: this.currentUser()?._id?.toString() || "",
-      date: this.reservationDate,
-      tableType: this.tableType,
-      hour: this.hour,
-      people: this.people
+    const username = this.currentUser()?.username || "";
+
+    this.userService.findUserByName(username).subscribe(user => {
+      const resData: Reservation = {
+        userId: user._id?.toString() || "",
+        date: this.reservationDate,
+        tableType: this.tableType,
+        hour: this.hour,
+        people: this.people
     };
 
-    console.log(resData);
+    console.log('Reservation data prepared:', resData);
 
     this.reservationService.saveReservation(resData).subscribe({
-      next: (savedReservation) => {
+        next: (savedReservation) => {
+            console.log("Reservation Id:", savedReservation?._id?.toString());
 
-        console.log("Reservation Id" + savedReservation?._id);
-
-        this.seccessService.setSuccess(`Reservation saved for ${this.people} people on ${this.reservationDate} at ${this.hour} (${this.tableType} table).`);
-        this.resetForm();
-
-        const updatedUser: User = {
-          _id: this.currentUser()?._id!,
-          username: this.currentUser()!.username,  
-          email: this.currentUser()!.email,
-          password: this.currentUser()!.password,
-          reservationId: savedReservation._id?.toString()
-        };
-
-        this.userService.updateUser(updatedUser).subscribe({
-          next: (user) => {
-            console.log('User updated with reservationId:', user);
             this.seccessService.setSuccess(`Reservation saved for ${this.people} people on ${this.reservationDate} at ${this.hour} (${this.tableType} table).`);
-            
-          },
-          error: (err) => {
-            console.error('Error updating user:', err);
-          }
-        })
-      },
-      error: (err) => {
-        console.error('Error saving reservation:', err);
-      }
+            this.resetForm();
+
+            const updatedUser: User = {
+                _id: user._id?.toString() || "",
+                username: this.currentUser()!.username,  
+                email: this.currentUser()!.email,
+                password: this.currentUser()!.password,
+                reservationId: savedReservation._id?.toString()
+            };
+
+            console.log('Updated user:', JSON.stringify(updatedUser));
+
+            this.userService.updateUser(updatedUser).subscribe({
+                next: (user: User) => {
+                    console.log('User updated with reservationId:', user);
+                    this.seccessService.setSuccess(`User updated successfully.`);
+                   
+                },
+                error: (err) => {
+                    console.error('Error updating user:', err);
+                }
+            });
+        },
+        error: (err) => {
+            console.error('Error saving reservation:', err);
+        }
+    });
     });
   }
 
@@ -147,14 +155,13 @@ export class ReservationClass implements OnInit {
   //   });
   // }
 
-resetForm() {
-  setTimeout(() => {
-    this.reservationDate = '';
-    this.tableType = '';
-    this.hour = '';
-    this.people = 0;
-    this.isPreviewing = false;
-    this.cdr.detectChanges();
-  });
-}
-}
+  resetForm() {
+    setTimeout(() => {
+      this.reservationDate = '';
+      this.tableType = '';
+      this.hour = '';
+      this.people = 0;
+      this.isPreviewing = false;
+      this.cdr.detectChanges();
+    });
+  }}
