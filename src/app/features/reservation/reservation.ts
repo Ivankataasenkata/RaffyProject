@@ -116,11 +116,13 @@ export class ReservationClass implements OnInit {
                    
                 },
                 error: (err) => {
+                  this.errorService.setError('Error updating user:');
                     console.error('Error updating user:', err);
                 }
             });
         },
         error: (err) => {
+            this.errorService.setError('Error saving reservation:');
             console.error('Error saving reservation:', err);
         }
     });
