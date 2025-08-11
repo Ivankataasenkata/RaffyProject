@@ -14,60 +14,62 @@
             </div>
             <div class="flex">
                 <h3 (click)="toggleReservation()">Reservation Preview</h3>
-                @if(!reservation){
-                <div class="flex">
-                    <p>No make reservation yet</p>
-                    <a routerLink="/reservation" class="btn-link">Make a reservation now</a>
-                </div>
-                }
-                <div class="reservation-details" [class.active]="isReservationOpen">
-                    @if(isReservationEditMode){
-                         <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()">
-                             <div class="flex">
-                                <label for="date">Date:</label>
-                                <input id="date" type="date" formControlName="date" />
-                            </div>
-                            <div class="flex">
-                                <label for="tableType">Table Type:</label>
-                                <input id="tableType" type="text" formControlName="tableType" />
-                            </div>
-                            <div class="flex">
-                                <label for="hour">Hour:</label>
-                                <input id="hour" type="time" formControlName="hour" />
-                            </div>
-                            <div class="flex">
-                                <label for="people">Number of People:</label>
-                                <input id="people" type="number" min="1" formControlName="people" />
-                            </div>
-                            <div class="button-group">
-                                <button type="button" class="red-button" (click)="onCancelReservation()">Cancel</button>
-                                <button type="submit" [disabled]="reservationForm.invalid" class="green-button" (click)="saveReservation()">Save</button>
-                            </div>
-                         </form>
-                    }@else {
-                        <div class="flex">
-                            <p>Date:</p>
-                            <p>{{ reservation?.date }}</p>
-                        </div>
-                        <div class="flex">
-                            <p>Table Type:</p>
-                            <p>{{ reservation?.tableType }}</p>
-                        </div>
-                        <div class="flex">
-                            <p>Hour:</p>
-                            <p>{{ reservation?.hour }}</p>
-                        </div>
-                        <div class="flex">
-                            <p>Number of People:</p>
-                            <p>{{ reservation?.people }}</p>
-                        </div>
 
-                        <div class="button-group">
-                            <button (click)="editReservation()">Edit</button>
-                            <button (click)="deleteReservation()">Delete</button>
+                <div class="reservation-details" [class.active]="isReservationOpen">
+                    @if(!reservation){
+                    <div class="flex">
+                        <p>No make reservation yet</p>
+                        <a routerLink="/reservation" class="btn-link">Make a reservation now</a>
+                    </div>
+                    }@else {
+                    @if(isReservationEditMode){
+                    <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()">
+                        <div class="flex">
+                            <label for="date">Date:</label>
+                            <input id="date" type="date" formControlName="date" />
                         </div>
+                        <div class="flex">
+                            <label for="tableType">Table Type:</label>
+                            <input id="tableType" type="text" formControlName="tableType" />
+                        </div>
+                        <div class="flex">
+                            <label for="hour">Hour:</label>
+                            <input id="hour" type="time" formControlName="hour" />
+                        </div>
+                        <div class="flex">
+                            <label for="people">Number of People:</label>
+                            <input id="people" type="number" min="1" formControlName="people" />
+                        </div>
+                        <div class="button-group">
+                            <button type="button" class="red-button" (click)="onCancelReservation()">Cancel</button>
+                            <button type="submit" [disabled]="reservationForm.invalid" class="green-button"
+                                (click)="saveReservation()">Save</button>
+                        </div>
+                    </form>
+                    }@else {
+                    <div class="flex">
+                        <p>Date:</p>
+                        <p>{{ reservation?.date }}</p>
+                    </div>
+                    <div class="flex">
+                        <p>Table Type:</p>
+                        <p>{{ reservation?.tableType }}</p>
+                    </div>
+                    <div class="flex">
+                        <p>Hour:</p>
+                        <p>{{ reservation?.hour }}</p>
+                    </div>
+                    <div class="flex">
+                        <p>Number of People:</p>
+                        <p>{{ reservation?.people }}</p>
+                    </div>
+
+                    <div class="button-group">
+                        <button (click)="editReservation()">Edit</button>
+                        <button (click)="deleteReservation()">Delete</button>
+                    </div>
                     }
-                    
+                }
                 </div>
 
             </div>

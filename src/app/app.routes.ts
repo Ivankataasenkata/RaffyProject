@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {NotFound} from './shared/components/not-found/not-found';
+import {authGuard} from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -39,6 +40,7 @@ export const routes: Routes = [
     },
     {
         path: 'meal/:id',
+        canActivate: [authGuard],
         loadComponent: () => import('./features/menu/breakfast/meal-details/meal-details').then(c =>c.MealDetails)
     },
     {
@@ -55,6 +57,7 @@ export const routes: Routes = [
     },
     {
         path: 'reservation',
+        canActivate: [authGuard],
         loadComponent: () => import('./features/reservation/reservation').then(c => c.ReservationClass)
     },
     {

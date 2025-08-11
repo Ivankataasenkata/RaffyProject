@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../models/user';
@@ -8,6 +9,7 @@ import { ErrorService } from '../../core/services/error.service';
 import { UserService } from '../../core/services/userService';
 import { CommonModule } from '@angular/common';
 import { SuccessService } from '../../core/services/success.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +17,7 @@ import { SuccessService } from '../../core/services/success.service';
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
-export class Profile {
+export class Profile implements OnInit {
   protected authService = inject(AuthService);
   protected currentUser = this.authService.currentUser;
   
@@ -35,11 +37,10 @@ export class Profile {
 
   isReservationOpen = false;
   isReservationEditMode = false;
-  reservationObj: Reservation = {} as Reservation;
   reservationForm: FormGroup;
 
-  constructor() {
-    this.user = this.currentUser() || null;
+  constructor(private router: Router) {
+    // this.user = this.currentUser() || null;
 
     this.profileForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(5)]],
@@ -48,14 +49,22 @@ export class Profile {
     });
 
     this.reservationForm = this.formBuilder.group({
-      date: [''],
-      tableType: [''],
-      hour: [''],
-      people: ['']
+      date: ['', [Validators.required]],
+      tableType: ['', [Validators.required]],
+      hour: ['', [Validators.required]],
+      people: ['', [Validators.required, Validators.min(1)]]
     });
+
+    // this.loadReservation();
+    // console.log('load reservation');
+  }
+  ngOnInit(): void {
+
+    this.user = this.currentUser() || null;
 
     this.loadReservation();
     console.log('load reservation');
+    
   }
 
   get username(): AbstractControl<any, any> | null {
@@ -115,12 +124,19 @@ export class Profile {
     this.userService.findUserByName(this.user?.username!).subscribe({
       next: (user: User) => {
          
-        console.log(user.reservationId);
         if (user.reservationId) {
           this.reservationService.getReservationById(user.reservationId).subscribe({
             next: (data) => {
                this.reservation = data;
-               console.log(this.reservation);
+
+
+               this.reservationForm.patchValue({
+                date: this.reservation.date,
+                tableType: this.reservation.tableType,
+                hour: this.reservation.hour,
+                people: this.reservation.people
+               });
+
             },
             error: () => {
               this.errorService.setError("Connot get reservation");
@@ -187,7 +203,7 @@ export class Profile {
 
   saveReservation() {
      if (this.reservationForm.invalid) {
-      // Optionally, mark fields as touched to show validation errors
+      this.errorService.setError('Please fill all fields with valid information before saving.');
       this.reservationForm.markAllAsTouched();
       return;
     }
@@ -201,19 +217,18 @@ export class Profile {
     this.isReservationEditMode = false;
     this.isReservationOpen = false;
 
-    console.log('Resrevation ID: ' + this.reservation?._id);
-    console.log('reservation :  ' + JSON.stringify(reservationNew));
-
-    this.reservationService.updateReservation(this.reservation?._id || "" , reservationNew).subscribe({
+    this.reservationService.updateReservation(this.reservation?._id || "" , reservationNew).pipe(take(1)).subscribe({
       next: (reservation: Reservation) => {
-      console.log('reservation succeasfully updaeted:', reservation);
+      
       this.seccessService.setSuccess(`Reservation updated successfully.`);
-      // Optionally close the accordion or perform other UI updates
+      
       this.isReservationOpen = false;
+
+       this.router.navigate(['/home']);
     },
     error: (err) => {
       this.errorService.setError('Error updating reservation:');
-      console.error('Error updating reservation:', err);
+
     }
     });
 
@@ -225,10 +240,10 @@ export class Profile {
 
     
     this.reservationForm.patchValue({ 
-      date: this.reservationObj.date,
-      tableType: this.reservationObj.tableType,
-      hour: this.reservationObj.hour,
-      people: this.reservationObj.people
+      date: this.reservation?.date,
+      tableType: this.reservation?.tableType,
+      hour: this.reservation?.hour,
+      people: this.reservation?.people
     });
 
     // Optionally: close the accordion since now editing or keep open
@@ -242,15 +257,26 @@ export class Profile {
     }
 
     // Call service or logic to delete reservation here, e.g.:
-     this.reservationService.deleteReservation(this.reservation?._id || "");
+    console.log(this.reservation?._id);
+     this.reservationService.deleteReservation(this.reservation?._id || "").subscribe({
+      next: (response: Reservation) => {
+        if(response){
+          this.seccessService.setSuccess(`Reservation deleted successfully : ${response}`);
+          this.reservation = null;
+          this.isReservationOpen = false;
+          this.isReservationEditMode = false;
+          this.router.navigate(['/home']);
+        }
+      },
+      error: (err) => {
+        this.errorService.setError('Error deleting reservation');
+      } 
+     });
 
     // For demo: just clearing reservation data locally
-    this.reservation = null;
 
     // Close the accordion panel since reservation is gone
-    this.isReservationOpen = false;
 
     // Also exit reservation edit mode in case it was active
-    this.isReservationEditMode = false;
   }
 }
