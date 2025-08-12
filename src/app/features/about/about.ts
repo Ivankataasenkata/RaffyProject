@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-about',
@@ -7,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './about.css'
 })
 export class About {
+
+  router = inject(Router);
+  
+  goToMenu() {
+    this.router.navigate(['/menu']);
+  }
 
 }

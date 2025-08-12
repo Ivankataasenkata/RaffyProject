@@ -3,13 +3,14 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReservationService } from '../../core/services/reservation.service';
 import { Reservation } from '../../models/reservation'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorService } from '../../core/services/error.service';
 import { SuccessService } from '../../core/services/success.service';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../models/user';
 import { UserService } from '../../core/services/userService';
 import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-reservation',
@@ -37,11 +38,14 @@ export class ReservationClass implements OnInit {
 
    protected userService = inject(UserService);
 
-  constructor(private route: ActivatedRoute, private reservationService: ReservationService, private cdr: ChangeDetectorRef) { }
+    username!: string;
+
+  constructor(private route: ActivatedRoute, private reservationService: ReservationService, private cdr: ChangeDetectorRef, private router : Router) { }
 
 
   ngOnInit(): void {
     this.reservationId = this.route.snapshot.paramMap.get('id');
+    this.username = this.currentUser()?.username || "";
   }
 
 
@@ -77,11 +81,9 @@ export class ReservationClass implements OnInit {
 
   saveReservation() {
 
-    console.log(this.currentUser()?.username);
+    // console.log(this.currentUser()?.username);
 
-    const username = this.currentUser()?.username || "";
-
-    this.userService.findUserByName(username).subscribe(user => {
+    this.userService.findUserByName(this.username).subscribe(user => {
       const resData: Reservation = {
         userId: user._id?.toString() || "",
         date: this.reservationDate,
@@ -93,8 +95,8 @@ export class ReservationClass implements OnInit {
     console.log('Reservation data prepared:', resData);
 
     this.reservationService.saveReservation(resData).subscribe({
-        next: (savedReservation) => {
-            console.log("Reservation Id:", savedReservation?._id?.toString());
+        next: (savedReservation: Reservation) => {
+            // console.log("Reservation Id:", savedReservation?._id?.toString());
 
             this.seccessService.setSuccess(`Reservation saved for ${this.people} people on ${this.reservationDate} at ${this.hour} (${this.tableType} table).`);
             this.resetForm();
@@ -111,8 +113,9 @@ export class ReservationClass implements OnInit {
 
             this.userService.updateUser(updatedUser).subscribe({
                 next: (user: User) => {
-                    console.log('User updated with reservationId:', user);
-                    this.seccessService.setSuccess(`User updated successfully.`);
+                    
+                    this.seccessService.setSuccess(`User reservation updated successfully.`);
+                   this.router.navigate(['/home']);
                    
                 },
                 error: (err) => {

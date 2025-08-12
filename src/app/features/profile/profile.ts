@@ -133,9 +133,11 @@ export class Profile implements OnInit {
                this.reservationForm.patchValue({
                 date: this.reservation.date,
                 tableType: this.reservation.tableType,
-                hour: this.reservation.hour,
+                hour: this.convertTo24Hour(this.reservation.hour), 
                 people: this.reservation.people
                });
+
+               console.log(this.reservationForm);
 
             },
             error: () => {
@@ -151,6 +153,19 @@ export class Profile implements OnInit {
     })
 
   }
+
+  convertTo24Hour(time12h: string): string {
+  const [time, modifier] = time12h.split(' ');
+  let [hours, minutes] = time.split(':');
+
+  if (hours === '12') {
+    hours = '00';
+  }
+  if (modifier === 'PM') {
+    hours = String(parseInt(hours, 10) + 12);
+  }
+  return `${hours.padStart(2, '0')}:${minutes}`;
+}
 
   onEdit(): void {
     const user = this.currentUser();
@@ -242,7 +257,7 @@ export class Profile implements OnInit {
     this.reservationForm.patchValue({ 
       date: this.reservation?.date,
       tableType: this.reservation?.tableType,
-      hour: this.reservation?.hour,
+      hour: this.convertTo24Hour(this.reservation?.hour || ""),
       people: this.reservation?.people
     });
 
@@ -261,7 +276,7 @@ export class Profile implements OnInit {
      this.reservationService.deleteReservation(this.reservation?._id || "").subscribe({
       next: (response: Reservation) => {
         if(response){
-          this.seccessService.setSuccess(`Reservation deleted successfully : ${response}`);
+          this.seccessService.setSuccess(`Reservation deleted successfully`);
           this.reservation = null;
           this.isReservationOpen = false;
           this.isReservationEditMode = false;
