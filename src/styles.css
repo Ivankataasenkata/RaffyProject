@@ -22,7 +22,7 @@ body {
   background-size: cover;
   /* aspect-ratio: 16 / 9; */
   width: 100%;
-  height: 100vh;
+  height: 100%;
   color: #fff;
 }
 
@@ -34,8 +34,8 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.1); /* Adjust transparency here */
-  pointer-events: none; /* Keeps the overlay from blocking interactions */
+  background-color: rgba(0, 0, 0, 0.1); 
+  pointer-events: none; 
   z-index: 1;
 }
 
@@ -46,13 +46,12 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: rgba(0, 0, 0, 0.4); */
   padding-bottom: 30px;
   border-bottom: 2px solid white;
 }
 
 nav img.logo {
-  display: block; /* ensures it takes up space */
+  display: block; 
    width: auto;
   height: auto;
    object-fit: contain;
@@ -63,24 +62,24 @@ nav ul {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 30px; /* spacing between list items */
+  gap: 30px; 
 }
 
 nav li {
   color: white;
-  font-family: "Madimi One", sans-serif; /* matches your body text */
-  font-size: 20px; /* matches <p>, or bump to 64px for <h1> look */
-  font-style: italic; /* matches your <p> style */
+  font-family: "Madimi One", sans-serif; 
+  font-size: 20px; 
+  font-style: italic; 
   padding: 10px 20px;
   border: 2px solid white;
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.3); /* keeps contrast readable */
+  background-color: rgba(0, 0, 0, 0.3); 
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 nav li:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* adds interactive feel */
+  background-color: rgba(255, 255, 255, 0.2); 
 }
 
 nav li a {
@@ -105,8 +104,8 @@ nav li a {
   margin-right: auto;
   padding: 20px;
   border: 2px solid white;
-  background-color: rgba(0, 0, 0, 0.4); /* semi-transparent black for contrast */
-  border-radius: 10px; /* optional: smooth corners */
+  background-color: rgba(0, 0, 0, 0.4); 
+  border-radius: 10px; 
   max-width: fit-content;
 }
 
